@@ -1,0 +1,46 @@
+name: CI/CD Pipeline for Post Service
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v3
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+
+    - name: Build Docker image
+      run: |
+        docker build -t post-service .
+
+    - name: Run Tests in Docker container
+      run: |
+        docker run --rm post-service npm test
+
+    - name: Push Docker Image to DockerHub (Optional)
+      run: |
+        docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+        docker tag post-service $DOCKER_USERNAME/post-service:latest
+        docker push $DOCKER_USERNAME/post-service:latest
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v3
+
+    - name: Run Post Service Locally
+      run: |
+        docker-compose -f docker-compose.yml up -d
