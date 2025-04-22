@@ -1,4 +1,4 @@
-name: CI/CD Pipeline for Post Service
+name: CI/CD Pipeline for Auth Service
 
 on:
   push:
@@ -9,7 +9,7 @@ on:
       - main
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -21,26 +21,16 @@ jobs:
 
     - name: Build Docker image
       run: |
-        docker build -t post-service .
+        docker build -t ${{ secrets.DOCKER_USERNAME }}/auth-service:latest .
 
-    - name: Run Tests in Docker container
+    - name: Log in to DockerHub
       run: |
-        docker run --rm post-service npm test
+        echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
 
-    - name: Push Docker Image to DockerHub (Optional)
+    - name: Push Docker Image to DockerHub
       run: |
-        docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-        docker tag post-service $DOCKER_USERNAME/post-service:latest
-        docker push $DOCKER_USERNAME/post-service:latest
+        docker push ${{ secrets.DOCKER_USERNAME }}/auth-service:latest
 
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-
-    steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v3
-
-    - name: Run Post Service Locally
+    - name: Deploy to Render
       run: |
-        docker-compose -f docker-compose.yml up -d
+        curl -X GET ${{ secrets.RENDER_DEPLOY_HOOK }}
