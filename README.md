@@ -25,7 +25,7 @@ Todas as rotas são protegidas. É necessário fornecer um token JWT válido no 
 
 ## 📡 Rotas Disponíveis
 
-### ➕ Criar Post
+### Criar Post
 
 **POST** `/posts`
 
@@ -38,11 +38,19 @@ Todas as rotas são protegidas. É necessário fornecer um token JWT válido no 
   "authorId": 1
 }
 
-## 📡 Rotas Disponíveis
+```
 
-### ➕ Criar Post
+### Listar Todos os Posts
 
-**POST** `/posts`
+**GET** `/posts`
+
+### Listar Posts por Autor
+
+**GET** `/posts/author/:userId`
+
+### Atualizar Post
+
+**PUT**  `/posts/:id`
 
 **Body:**
 
@@ -53,6 +61,9 @@ Todas as rotas são protegidas. É necessário fornecer um token JWT válido no 
   "authorId": 1
 }
 
+```
 
 
+###  Deletar Post
 
+**DELETE**  `/posts/:id`
