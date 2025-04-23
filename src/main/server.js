@@ -13,7 +13,7 @@ sequelize.sync().then(() => {
   console.log('Post DB ready!');
 });
 
-const PORT = process.env.PORT || 3002;
+const PORT = process.env.PORT || 3005;
 app.listen(PORT, () => {
   console.log(`Post service running on port ${PORT}`);
 });

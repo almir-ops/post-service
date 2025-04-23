@@ -23,7 +23,9 @@ class SequelizePostRepository {
   }
 
   async findByAuthor(authorId) {
-    return await this.model.findAll({ where: { authorId } });
+    return await PostModel.findAll({
+      where: { authorId }
+    });
   }
   
 }

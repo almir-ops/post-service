@@ -20,6 +20,12 @@ module.exports = (useCases) => ({
       res.json(posts);
     },
   
+    getPostById: async (req, res) => {
+      const { id } = req.params;
+      const posts = await useCases.getPostById(id);
+      res.json(posts);
+    },
+
     getByAuthor: async (req, res) => {
       const { authorId } = req.params;
       const posts = await useCases.getPostsByAuthor(authorId);
@@ -45,7 +51,7 @@ module.exports = (useCases) => ({
       const userId = req.user.id;
   
       try {
-        await useCases.deletePost({ id, userId });
+        await useCases.deletePost(id, userId);
         res.status(204).send();
       } catch (err) {
         console.error('Erro ao deletar post:', err.message);
