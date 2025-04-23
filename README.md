@@ -35,7 +35,6 @@ Todas as rotas são protegidas. É necessário fornecer um token JWT válido no 
 {
   "title": "Título do post",
   "content": "Conteúdo do post",
-  "authorId": 1
 }
 
 ```
@@ -58,7 +57,6 @@ Todas as rotas são protegidas. É necessário fornecer um token JWT válido no 
 {
   "title": "Título do post",
   "content": "Conteúdo do post",
-  "authorId": 1
 }
 
 ```
